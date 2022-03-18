@@ -9,7 +9,6 @@ using System.Windows.Forms;
 Model Model; // *** Needed for C# scripting, remove in TE3 ***
 TabularEditor.Shared.Interaction.Selection Selected; // *** Needed for C# scripting, remove in TE3 ***
 
-
 var jsonFile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TabularEditor3\MacroActions.json";
 
 var fbd = new FolderBrowserDialog();

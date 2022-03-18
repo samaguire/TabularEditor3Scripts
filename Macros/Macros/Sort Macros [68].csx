@@ -10,9 +10,9 @@ using Newtonsoft.Json.Linq;
 Model Model; // *** Needed for C# scripting, remove in TE3 ***
 TabularEditor.Shared.Interaction.Selection Selected; // *** Needed for C# scripting, remove in TE3 ***
 
-
 var jsonFile = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + @"\TabularEditor3\MacroActions.json";
 var json = JObject.Parse(File.ReadAllText(jsonFile));
 json["Actions"] = new JArray(json["Actions"].OrderBy(i => i["Name"]));
 File.WriteAllText(jsonFile, JsonConvert.SerializeObject(json, Newtonsoft.Json.Formatting.Indented), System.Text.Encoding.UTF8);
+
 ScriptHelper.Warning("Script finished. Please restart Tabular Editor 3.");
