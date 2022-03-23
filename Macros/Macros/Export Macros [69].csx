@@ -11,13 +11,6 @@ using System.Windows.Forms;
 Model Model; // *** Needed for C# scripting, remove in TE3 ***
 TabularEditor.Shared.Interaction.Selection Selected; // *** Needed for C# scripting, remove in TE3 ***
 
-
-/*
-Notes:
-Elements relating to exporting json are disabled as importing requires TE3 to be restarted, which is a hindrance in script development (it is easier to copy and paste).
-Future dev to impliment an import script; add all as new, or override existing (by id) and add new where id doesn't exist: with a warning about potentially breaking the layout
-*/
-
 // Get output folder
 var fbd = new FolderBrowserDialog();
 if (fbd.ShowDialog() == DialogResult.Cancel) { return; }
@@ -25,8 +18,7 @@ var outFolder = fbd.SelectedPath;
 
 // Delete csx and json files from folder
 var mbResult = MessageBox.Show(
-    // "Do you want to delete all existing csx and json files in the folder first?",
-    "Do you want to delete all existing csx files in the folder first?",
+    "Do you want to delete all existing csx and json files in the folder first?",
     "Question",
     MessageBoxButtons.YesNoCancel,
     MessageBoxIcon.Question
@@ -35,7 +27,7 @@ switch (mbResult)
 {
     case DialogResult.Yes:
         foreach (var f in Directory.EnumerateFiles(outFolder, "*.csx", SearchOption.AllDirectories)) { File.Delete(f); }
-        // foreach (var f in Directory.EnumerateFiles(outFolder, "*.json", SearchOption.AllDirectories)) { File.Delete(f); }
+        foreach (var f in Directory.EnumerateFiles(outFolder, "*.json", SearchOption.AllDirectories)) { File.Delete(f); }
         foreach (var d in Directory.EnumerateDirectories(outFolder, "*", SearchOption.AllDirectories))
         {
             if (!Directory.EnumerateFiles(d).Any() && !Directory.EnumerateDirectories(d).Any()) { Directory.Delete(d); }
@@ -113,13 +105,13 @@ foreach (var jtokenItem in json["Actions"])
     if (!fileInfo.Directory.Exists) { fileInfo.Directory.Create(); }
     File.WriteAllText(csxFilePath, csxContent, System.Text.Encoding.UTF8);
 
-    // // Get jsonContent
-    // jtokenItem["Execute"].Parent.Remove();
-    // var jsonContent = JsonConvert.SerializeObject(jtokenItem, Newtonsoft.Json.Formatting.Indented);
+    // Get jsonContent
+    jtokenItem["Execute"].Parent.Remove();
+    var jsonContent = JsonConvert.SerializeObject(jtokenItem, Newtonsoft.Json.Formatting.Indented);
 
-    // // Save jsonContent
-    // var jsonFilePath = outFolder+"\\"+fileName+".json";
-    // File.WriteAllText(jsonFilePath, jsonContent, System.Text.Encoding.UTF8);
+    // Save jsonContent
+    var jsonFilePath = outFolder+"\\"+fileName+".json";
+    File.WriteAllText(jsonFilePath, jsonContent, System.Text.Encoding.UTF8);
 
 }
 
